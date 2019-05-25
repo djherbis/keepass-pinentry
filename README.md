@@ -57,5 +57,3 @@ Future work
 
 * Fallback to non-SSL TCP when certificate not present.
 * Add tests
-* Build Go with travis
-* Add binaries to releases via travis instead of commiting them
