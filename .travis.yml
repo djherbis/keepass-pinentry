@@ -5,7 +5,6 @@ matrix:
       script:
         - dotnet restore
         - dotnet build ./KeepassPinentry/
-  include:
     - lanaguage: go
       go:
         - 1.12.x
