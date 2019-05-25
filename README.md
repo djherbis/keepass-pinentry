@@ -13,6 +13,8 @@ Installation
 
 Clone this repo, do this somewhere it can reside permanently since we add ENV vars which point to this dir.
 
+Grab a copy of KeepassPinentry.dll and stdproxy.exe from [Releases](https://github.com/djherbis/keepass-pinentry/releases) (or build them yourself).
+
 Run the install.cmd (auto adds the plugin ddl to the keepass dir).
 
 Add a Keepass Entry called "GPG" whose password is your GPG password.
@@ -29,10 +31,19 @@ running a local server. This TCP connection is used to forward the STDIN written
 Building locally / Development
 ----------
 
-Dependencies:
-* Docker for Windows
+**KeepassPinentry.dll:**
 
-You can rebuild the DLL by running build.cmd.
+Dependencies:
+* Docker for Windows or dotnet
+
+You can rebuild the DLL by running build.cmd, or running dotnet inside KeepassPinentry/.
+
+**stdproxy.exe:**
+
+Dependencies:
+* Go
+
+cd into stdproxy/ and run "go build"
 
 Notes
 ----------
