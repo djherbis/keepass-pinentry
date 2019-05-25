@@ -1,6 +1,10 @@
 keepass-pinentry
 ==========
 
+[![experimental](https://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.txt)
+[![Build Status](https://travis-ci.org/djherbis/keepass-pinentry.svg?branch=master)](https://travis-ci.org/djherbis/keepass-pinentry)
+
 Tired of typing in your GPG password? Have Keepass do it for you!
 With this Keepass plugin installed and gpg-agent configured you can have Keepass respond to pinentry requests for you.
 
@@ -41,3 +45,6 @@ Future work
 ----------
 
 * Fallback to non-SSL TCP when certificate not present.
+* Add tests
+* Build Go with travis
+* Add binaries to releases via travis instead of commiting them
