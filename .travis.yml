@@ -3,8 +3,10 @@ language: go
 go:
 - 1.12.x
 script:
+  - cd stdproxy
+  - go build
+  - cd ..
   - dotnet build ./KeepassPinentry/
-  - go build stdproxy/
 
 deploy:
   provider: releases
