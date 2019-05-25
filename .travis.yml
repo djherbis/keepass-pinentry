@@ -1,10 +1,10 @@
 os: windows
-matrix:
-  include:
-    - language: sh
-      script: dotnet build ./KeepassPinentry/
-    - go: 1.11
-      script: go build
+language: go
+go:
+- 1.12.x
+script:
+  - dotnet build ./KeepassPinentry/
+  - go build stdproxy/
 
 deploy:
   provider: releases
