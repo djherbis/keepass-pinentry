@@ -1,6 +1,7 @@
 keepass-pinentry
 ==========
 
+[![Release](https://img.shields.io/github/release/djherbis/keepass-pinentry.svg)](https://github.com/djherbis/keepass-pinentry/releases/latest)
 [![experimental](https://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.txt)
 [![Build Status](https://travis-ci.org/djherbis/keepass-pinentry.svg?branch=master)](https://travis-ci.org/djherbis/keepass-pinentry)
