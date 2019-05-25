@@ -1,0 +1,6 @@
+.vs/*
+KeepassPinentry/bin/*
+KeepassPinentry/obj/*
+*.conf
+*.pem
+*.p12
