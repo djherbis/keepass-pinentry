@@ -1,3 +1,4 @@
+language: sh
 os: windows
 script:
   - dotnet restore
