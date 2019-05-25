@@ -1,0 +1,11 @@
+language: csharp
+solution: KeepassPinentry.sln
+os: windows
+script:
+  - dotnet restore
+  - dotnet build ./KeepassPinentry/
+notifications:
+  webhooks: https://coveralls.io/webhook
+  email:
+    on_success: never
+    on_failure: change
