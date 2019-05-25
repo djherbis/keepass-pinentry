@@ -2,12 +2,9 @@ os: windows
 matrix:
   include:
     - language: sh
-      script:
-        - dotnet restore
-        - dotnet build ./KeepassPinentry/
-    - lanaguage: go
-      script:
-        - go build
+      script: dotnet build ./KeepassPinentry/
+    - go: 1.11
+      script: go build
 
 deploy:
   provider: releases
