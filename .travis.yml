@@ -1,5 +1,3 @@
-language: csharp
-solution: KeepassPinentry.sln
 os: windows
 script:
   - dotnet restore
