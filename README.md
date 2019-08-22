@@ -28,7 +28,7 @@ How it works
 The idea is really simple, we tell gpg-agent to talk to stdproxy as its pinentry program.
 It uses a simple text protocol to communicate with the pinentry program over STDIN/STDOUT.
 Stdproxy makes a TCP connection (wrapped in SSL) to the keepass-pinentry plugin which is
-running a local server. This TCP connection is used to forward the STDIN written by gpg-agent to stdproxy to keepass-pinentry which then responds over TCP back to stdproxy's STDOUT which is read by gpg-agent. Keepass-pinentry implements the bare minimum parts of the pinentry protocol in order to respond to the 
+running a local server. This TCP connection is used to forward the STDIN written by gpg-agent to stdproxy to keepass-pinentry which then responds over TCP back to stdproxy's STDOUT which is read by gpg-agent. Keepass-pinentry implements the bare minimum parts of the pinentry protocol in order to respond to the pinentry request.
 
 Building locally / Development
 ----------
