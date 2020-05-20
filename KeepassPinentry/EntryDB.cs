@@ -2,6 +2,7 @@
 using KeePassLib;
 using KeePassLib.Collections;
 using System.Windows.Forms;
+using System;
 
 namespace KeepassPinentry
 {
@@ -20,13 +21,20 @@ namespace KeepassPinentry
                 SearchString = text
             };
 
-            var list = new PwObjectList<PwEntry>();
-            Host.Database.RootGroup.SearchEntries(p, list);
-
-            var e = list.GetAt(0); // TODO(djherbis): might throw
-            var title = e.Strings.ReadSafe(PwDefs.TitleField);
-            ShowBalloonNotification($"Entry {title} was read.");
-            return e;
+            var databases = Host.MainWindow.DocumentManager.GetOpenDatabases();
+            foreach (var database in databases)
+            {
+                var list = new PwObjectList<PwEntry>();
+                database.RootGroup.SearchEntries(p, list);
+                if (list.UCount > 0) 
+                {
+                    var e = list.GetAt(0);
+                    var title = e.Strings.ReadSafe(PwDefs.TitleField);
+                    ShowBalloonNotification($"Entry {title} was read.");
+                    return e;
+                }
+            }
+            throw new Exception("No " + text + " entry found!");
         }
 
         public void ShowBalloonNotification(string aMessage)
