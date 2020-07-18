@@ -20,7 +20,7 @@ Run the install.cmd (auto adds the plugin ddl to the keepass dir).
 
 In Keepass:
 * Add an Entry named "GPG" whose password is your GPG password (the one you want pinentry to use).
-* Add an Entry named "TLSKEY" whose password is the certificate password you created, and add the certificate.pem file as a binary to this entry.
+* Add an Entry named "TLSKEY" whose password is the certificate password you created, and add the certificate.p12 file as a binary to this entry.
 
 How it works
 ----------
