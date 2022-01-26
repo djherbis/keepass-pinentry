@@ -3,38 +3,84 @@ using KeePassLib;
 using KeePassLib.Collections;
 using System.Windows.Forms;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace KeepassPinentry
 {
+    internal class EntryDBException : Exception
+    {
+        public EntryDBException() { }
+
+        public EntryDBException(string message)
+            : base(message) { }
+    }
+
     internal class EntryDB
     {
         public IPluginHost Host { get; set; }
 
-        public PwEntry Get(string text)
+        public PwEntry GetByTitle(string text)
+        {
+            return Get(new SearchParameters { SearchInTitles = true, SearchString = text});
+        }
+
+        public PwEntry GetByUserName(string text)
+        {
+            return Get(new SearchParameters { SearchInUserNames = true, SearchString = text });
+        }
+
+        public PwEntry GetByTitleAndUserName(string title, string name)
+        {
+            var param = new SearchParameters
+            {
+                SearchInTitles = true,
+                SearchString = title
+            };
+
+            return Get(
+                param,
+                entry =>
+                {
+                    string currentName = entry.Strings.ReadSafe(PwDefs.UserNameField);
+
+                    return string.Equals(currentName, name, StringComparison.OrdinalIgnoreCase);
+                });
+        }
+
+        public PwEntry Get(SearchParameters param, Func<PwEntry, bool> predicate = null)
+        {
+            try
+            {
+                IEnumerable<PwEntry> entries = GetAll(param);
+                PwEntry entry = predicate is null ? entries.First() : entries.First(predicate);
+                NotifyReadEntry(entry);
+
+                return entry;
+            }
+            catch (InvalidOperationException)
+            {
+                var message = $"Unable to find entry with the search string {param.SearchString}.";
+                ShowBalloonNotification(message);
+
+                throw new EntryDBException(message);
+            }
+        }
+
+        private IEnumerable<PwEntry> GetAll(SearchParameters param)
         {
             var unlocker = new Unlocker { Host = Host };
             unlocker.Unlock();
-
-            var p = new SearchParameters
-            {
-                SearchInTitles = true,
-                SearchString = text
-            };
 
             var databases = Host.MainWindow.DocumentManager.GetOpenDatabases();
             foreach (var database in databases)
             {
                 var list = new PwObjectList<PwEntry>();
-                database.RootGroup.SearchEntries(p, list);
-                if (list.UCount > 0) 
-                {
-                    var e = list.GetAt(0);
-                    var title = e.Strings.ReadSafe(PwDefs.TitleField);
-                    ShowBalloonNotification($"Entry {title} was read.");
-                    return e;
-                }
+                database.RootGroup.SearchEntries(param, list);
+
+                foreach (var entry in list)
+                    yield return entry;
             }
-            throw new Exception("No " + text + " entry found!");
         }
 
         public void ShowBalloonNotification(string aMessage)
@@ -67,6 +113,13 @@ namespace KeepassPinentry
             {
                 aInvoker.Invoke();
             }
+        }
+
+        private void NotifyReadEntry(PwEntry entry)
+        {
+            var fullTitle = entry.Strings.ReadSafe(PwDefs.TitleField);
+            var fullName = entry.Strings.ReadSafe(PwDefs.UserNameField);
+            ShowBalloonNotification($"Entry {fullTitle} ({fullName}) was read.");
         }
     }
 }
