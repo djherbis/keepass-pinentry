@@ -6,12 +6,11 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-
-  steps:
-  - uses: actions/checkout@v2
-  - uses: actions/setup-dotnet@v1
-    with:
-      dotnet-version: '4.7.2'
-  - run: dotnet build ./KeepassPinentry/
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '4.7.2'
+      - run: dotnet build ./KeepassPinentry/
 
 
