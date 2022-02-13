@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'Keepass/**'
+      - 'KeepassPinentry/**'
 jobs:
   build:
     runs-on: windows-latest
