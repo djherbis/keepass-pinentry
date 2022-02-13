@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - master
-    #paths:
-    #  - 'stdproxy/**'
+    paths:
+      - 'stdproxy/**'
 jobs:
   build:
     runs-on: windows-latest
