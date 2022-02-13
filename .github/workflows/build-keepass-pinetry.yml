@@ -12,5 +12,8 @@ jobs:
         with:
           dotnet-version: '5.0.x'
       - run: dotnet build ./KeepassPinentry/
-
+      - uses: actions/upload-artifact@v2
+        with:
+          name: KeepassPinentry.dll
+          path: KeepassPinentry\bin\Debug\KeepassPinentry.dll
 
