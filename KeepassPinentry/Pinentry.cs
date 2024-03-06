@@ -12,6 +12,7 @@ namespace KeepassPinentry
 
         public void Handle(TextReader reader, TextWriter writer)
         {
+            // See https://www.gnupg.org/documentation/manuals/assuan.pdf
             string keyInfo = "";
 
             writer.WriteLine("OK Ready.");
@@ -53,8 +54,16 @@ namespace KeepassPinentry
                     keyInfo = args == "--clear" ? "" : args;
 
                 } else if (line.StartsWith("GETPIN")) {
-                    writer.WriteLine("D " + PasswordFetcher(keyInfo));
-
+                    try
+                    {
+                        writer.WriteLine("D " + PasswordFetcher(keyInfo));
+                    }
+                    catch (EntryDBException e)
+                    {
+                        // https://dev.gnupg.org/source/libgpg-error/browse/master/src/err-codes.h.in
+                        // https://dev.gnupg.org/source/libgpg-error/browse/master/doc/errorref.txt
+                        writer.WriteLine($"ERR 86 {e.Message}"); // GPG_ERR_PIN_ENTRY
+                    }
                 } else {
                     // do nothing
                 }

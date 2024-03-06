@@ -19,9 +19,14 @@ namespace KeepassPinentry
             db = new EntryDB { Host = host };            
 
             var pinentry = new Pinentry {
-                PasswordFetcher = (keyInfo) => {
-                    return db.Get("GPG").Strings.ReadSafe(PwDefs.PasswordField);
-                },
+                PasswordFetcher = keyInfo =>
+                {
+                    PwEntry entry = string.IsNullOrWhiteSpace(keyInfo) 
+                        ? db.GetByTitleAndUserName("GPG", "DEFAULT") 
+                        : db.GetByUserName(keyInfo);
+
+                    return entry.Strings.ReadSafe(PwDefs.PasswordField);
+                }
             };
 
             int port = -1;
@@ -35,7 +40,7 @@ namespace KeepassPinentry
                 Port = port,
                 Handler = pinentry.Handle,
                 Certificate = () => {
-                    var entry = db.Get("TLSKEY");
+                    var entry = db.GetByTitle("TLSKEY");
                     var data = entry.Binaries.Get("certificate.p12").ReadData();
                     var pwd = entry.Strings.ReadSafe(PwDefs.PasswordField);
                     return new X509Certificate2(data, pwd);
